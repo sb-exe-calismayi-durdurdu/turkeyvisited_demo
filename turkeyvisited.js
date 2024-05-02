@@ -1,3 +1,10 @@
+//
+//
+//
+// explanations of some codes
+//
+// 
+
 const HOVER_COLOR = "#EFAE88";
 const MAP_COLOR = "#fff2e3";
 let cityCount = localStorage.getItem("selectedCities")

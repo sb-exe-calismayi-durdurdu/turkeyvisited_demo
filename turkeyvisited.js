@@ -1,9 +1,22 @@
+//
+//
+//
+// explanations of some codes
+//
+// 
+
 const HOVER_COLOR = "#EFAE88";
+// mouse'un üzerine geldiği şehrin rengi
 const MAP_COLOR = "#fff2e3";
+// şehirlerin standart rengi
 let cityCount = localStorage.getItem("selectedCities")
+// lokalde "selectedCities" var mı kontrol et
   ? JSON.parse(localStorage.getItem("selectedCities")).length
+  // eğer varsa bu JSON datalarını JS'e dönüştürüp sayısını tespit et, bu sayıyı cityCount olarak ata
   : 0;
+  // eğer yoksa cityCount'u 0 olarak ata
 document.getElementById("city_count").innerHTML = cityCount;
+// sayfada city_count olan kısmı "cityCount" değeriyle değiştir
 
 d3.json("tr-cities.json").then(function (data) {
   let width = 1200;

@@ -18,12 +18,29 @@ let cityCount = localStorage.getItem("selectedCities")
 document.getElementById("city_count").innerHTML = cityCount;
 // sayfada city_count olan kısmı "cityCount" değeriyle değiştir
 
-d3.json("tr-cities.json").then(function (data) {
+d3.json("tr-cities.json")
+  .then(function (data) {
+  // d3 modülüyle "tr-cities.json" dosyasında işlem işlemler yapılmasını sağlıyoruz
+  // d3 modülünü index.html'de import etmiştik
+  // .then() metodu ile .json() metodundan dönen promise başarıyla yüklenirse ne olacağını belirliyoruz
+  // .then(function(data) {...}) ile function adından bir fonksiyon belirliyoruz
+  // bu fonksiyonun parametresi olarak "data" değerini atıyoruz
+
   let width = 1200;
+  // aşağıda fitSize() metodunda kullanmak üzere width...
   height = 800;
+  // ve height belirliyoruz
   let projection = d3.geoEqualEarth();
+  // burada bir projeksiyon tanımlanıyor
+  // bu projeksiyonda d3 modülündeki "goEqualEarth()" metodunu çağırıyoruz
+  // bu metod, yeryüzünün eşit alan gösterimini sağlayan bir projeksiyon oluşturur
   projection.fitSize([width, height], data);
+  // fitSize() metodu - projeksiyonun belirtilen boyuta uyumlu hale getirilmesini sağlar
+  // data - bu veri seti, projeksiyonun haritayı oluşturmak için kullanacağı coğrafi verileri temsil eder
   let path = d3.geoPath().projection(projection);
+  // d3.geoPath() - d3'ün coğrafi verileri SVG yolu elemanına dönüştürmek için kullandığı metottur
+  // bu SVG yolunun hangi projeksiyonda sergileneceği projection() metoduyla belirleniyor
+  // biz üstte tanımladığımız projeksiyonu buraya atadık
 
   let svg = d3
     .select("#map_container")

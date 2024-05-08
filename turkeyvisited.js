@@ -6,80 +6,105 @@
 // 
 
 const HOVER_COLOR = "#EFAE88";
-// mouse'un üzerine geldiği şehrin rengi
 const MAP_COLOR = "#fff2e3";
-// şehirlerin standart rengi
+
 let cityCount = localStorage.getItem("selectedCities")
-// lokalde "selectedCities" var mı kontrol et
   ? JSON.parse(localStorage.getItem("selectedCities")).length
-  // eğer varsa bu JSON datalarını JS'e dönüştürüp sayısını tespit et, bu sayıyı cityCount olarak ata
   : 0;
-  // eğer yoksa cityCount'u 0 olarak ata
 document.getElementById("city_count").innerHTML = cityCount;
-// sayfada city_count olan kısmı "cityCount" değeriyle değiştir
 
 d3.json("tr-cities.json")
   .then(function (data) {
-  // d3 modülüyle "tr-cities.json" dosyasında işlem işlemler yapılmasını sağlıyoruz
-  // d3 modülünü index.html'de import etmiştik
-  // .then() metodu ile .json() metodundan dönen promise başarıyla yüklenirse ne olacağını belirliyoruz
-  // .then(function(data) {...}) ile function adından bir fonksiyon belirliyoruz
-  // bu fonksiyonun parametresi olarak "data" değerini atıyoruz
 
   let width = 1200;
-  // aşağıda fitSize() metodunda kullanmak üzere width...
   height = 800;
-  // ve height belirliyoruz
   let projection = d3.geoEqualEarth();
-  // burada bir projeksiyon tanımlanıyor
-  // bu projeksiyonda d3 modülündeki "goEqualEarth()" metodunu çağırıyoruz
-  // bu metod, yeryüzünün eşit alan gösterimini sağlayan bir projeksiyon oluşturur
   projection.fitSize([width, height], data);
-  // fitSize() metodu - projeksiyonun belirtilen boyuta uyumlu hale getirilmesini sağlar
-  // data - bu veri seti, projeksiyonun haritayı oluşturmak için kullanacağı coğrafi verileri temsil eder
   let path = d3.geoPath().projection(projection);
-  // d3.geoPath() - d3'ün coğrafi verileri SVG yolu elemanına dönüştürmek için kullandığı metottur
-  // bu SVG yolunun hangi projeksiyonda sergileneceği projection() metoduyla belirleniyor
-  // biz üstte tanımladığımız projeksiyonu buraya atadık
+
+
+//--------------------GİTHUB'TA BURADAYIZ----------------------------
 
   let svg = d3
+  // bir SVG nesnesi tanımlıyoruz
     .select("#map_container")
+    // html sayfasındaki "map_container" id'sine sahip bir elemanı seçiyoruz
     .append("svg")
+    // ona bir svg nesnesi ekliyoruz
     .attr("width", width)
+    // svg nesnesinin genişliğini yukarıda tanımladığımız width değeri olarak belirtiyoruz 
     .attr("height", height);
+    // svg nesnesinin yüksekliği yukarıda tanımladığımız height değeri olarak belirtiyoruz 
 
   let g = svg
+  // SVG elemanına bağlı bir grup oluşturuyoruz
     .append("g")
+    // bu gruba yeni bir grup ekliyoruz
     .selectAll("path")
+    // bu grup içindeki tüm "path" elemanlarını seçiyoruz
     .data(data.features)
+    // verisetindeki her datanın özellikleriyle (features) ilişkilendirilmiş bir seçim oluşturuyoruz
+    // yani json dosyasındaki her şehrin özelliklerini seçiyoruz
     .join("path")
+    // her bir veri öğesi için bir <path> elemanı oluşturuluyor
+    // bu, her bir öğenin bir <path> öğesi içinde görselleştirilmesi anlamına gelir
     .attr("d", path)
+    // burada her bir dataya path atanıyor (d = data)
     .attr("fill", function (d, i) {
+      // her bir "fill" özniteliğinin hangi fonksiyon tarafından ayarlanacağı burada belirtiliyor
       if (localStorage.getItem("selectedCities")) {
+        // eğer lokalde "selectedCities" ögesi varsa
         if (
           JSON.parse(localStorage.getItem("selectedCities")).includes(
+            // eğer "selectedCities" ögesinde...
             d.properties.name
+            // dataların özelliklerinde (properties) "name" özelliği varsa
           )
         ) {
           d.noFill = true;
+          // dataların "noFill" özelliğini "true" olarak ayarla
           return HOVER_COLOR;
+          // ve "HOVER_COLOR" özelliğini döndür
         } else return MAP_COLOR;
+        // eğer "selectedCities" nesnesinde dataların "name" özelliği yoksa...
+        // "MAP_COLOR" özelliğini döndür
       } else return MAP_COLOR;
+      // eğer lokalde "selectedCities" ögesi yoksa da "MAP_COLOR" özelliğini döndür
     })
+
+
+
+//-------------------------BİRİNCİ KISIM--------------------------------------
     .attr("stroke", "#000")
+    // "stroke" özniteliğine (kenarlık) bir renk değeri atanıyor
     .on("mouseover", function (d, i) {
+      // "mouseover" olunca (fare ögenin üstüne geldiğinde) şu işlemi yap...
       d3.select(this).attr("fill", HOVER_COLOR);
+      // dataları seç ve onların "fill" özniteliğini "HOVER_COLOR" olarak ata
+      // yani ögenin rengini "HOVER_COLOR" olarak değiştir
     })
     .on("mouseout", function (d, i) {
+      // "mouseout" olunca (fare ögenin üstünden ayrıldığında) şu işlemi yap...
       if (!d.noFill) d3.select(this).attr("fill", MAP_COLOR);
+      // "d.noFill" ifadesi false ise bu datayı seç ve "fill" özniteliğini "MAP_COLOR" olarak ata
+      // yani eski rengine geri döndür.
     })
     .on("click", function (d, i) {
+      // "click" olunca (ögeye tıklandığında) şu işlemi yap...
       d.noFill = d.noFill || false;
+      // tüm dataların "noFill" özniteliğine bakılır, eğer true ise true kalır ama eğer değilse false değeri atanır.
       if (!d.noFill) {
+        // eğer datalardan "noFill" özniteliği false olan var ise...
         cityCount++;
+        // "cityCount" değeri +1 artırılır
         document.getElementById("city_count").innerHTML = cityCount;
+        // html sayfasındaki "city_count" id'sine "cityCount" değeri yazılır
         d3.select(this).attr("fill", HOVER_COLOR);
+        // ve bu datalar seçilip, bu dataların "fill" özniteliği "HOVER_COLOR" olarak atanır
+        // yani ögelerin rengi "HOVER_COLOR" olarak değiştirilir
 
+
+//--------------------------İKİNCİ KISIM---------------------------------------
         //add selected city to localStorage
         if (localStorage.getItem("selectedCities")) {
           let tempSelectedCities = JSON.parse(
@@ -96,6 +121,8 @@ d3.json("tr-cities.json")
           tempArr.push(d.properties.name);
           localStorage.setItem("selectedCities", JSON.stringify(tempArr));
         }
+
+//------------------------ÜÇÜNCÜ KISIM------------------------------------------
       } else {
         cityCount--;
         document.getElementById("city_count").innerHTML = cityCount;
@@ -117,6 +144,7 @@ d3.json("tr-cities.json")
       d.noFill = !d.noFill;
     });
 
+//--------------------------DÖRDÜNCÜ KISIM---------------------------------------
   console.log(data.features.map((f) => f.properties.name));
 
   g = svg.append("g");
@@ -140,6 +168,7 @@ d3.json("tr-cities.json")
     .attr("style", "pointer-events: none;");
 });
 
+//---------------------------------BEŞİNCİ KISIM-----------------------------------
 function downloadMap() {
   let div = document.getElementById("map_container");
   html2canvas(div).then(function (canvas) {
@@ -149,6 +178,7 @@ function downloadMap() {
     var destCtx = destCanvas.getContext("2d");
     destCtx.drawImage(canvas, 0, 0);
 
+//--------------------------------ALTINCI KISIM-------------------------------------
     const ctx = destCanvas.getContext("2d");
     ctx.textBaseline = "top";
     ctx.font = "2em Calibri";

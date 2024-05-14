@@ -3,7 +3,7 @@
 //
 // explanations of some codes
 //
-// 
+// id="icanadolu"
 
 const HOVER_COLOR = "#EFAE88";
 const MAP_COLOR = "#fff2e3";
@@ -13,9 +13,18 @@ let cityCount = localStorage.getItem("selectedCities")
   : 0;
 document.getElementById("city_count").innerHTML = cityCount;
 
+let marmarasayaci = 0
+let egesayaci = 0
+let akdenizsayaci = 0
+let karadenizsayaci = 0
+let icanadolusayaci = 0
+let doguanadolusayaci = 0
+let gdoguanadolusayaci = 0
+
+
 d3.json("tr-cities.json")
   .then(function (data) {
-
+    
   let width = 1200;
   height = 800;
   let projection = d3.geoEqualEarth();
@@ -36,17 +45,12 @@ d3.json("tr-cities.json")
     .attr("d", path)
     .attr("fill", function (d, i) {
       if (localStorage.getItem("selectedCities")) {
-        if (
-          JSON.parse(localStorage.getItem("selectedCities")).includes(
-            d.properties.name
-          )
-        ) {
+        if (JSON.parse(localStorage.getItem("selectedCities")).includes(d.properties.name)) {
           d.noFill = true;
           return HOVER_COLOR;
         } else return MAP_COLOR;
       } else return MAP_COLOR;
     })
-
     .attr("stroke", "#000")
     .on("mouseover", function (d, i) {
       d3.select(this).attr("fill", HOVER_COLOR);
@@ -58,107 +62,125 @@ d3.json("tr-cities.json")
       d.noFill = d.noFill || false;
       if (!d.noFill) {
         cityCount++;
+        if (d.properties.base === "marmara") {
+          marmarasayaci++
+          document.getElementById("marmara").innerHTML = marmarasayaci;
+        }
+        if (d.properties.base === "ege") {
+          egesayaci++
+          document.getElementById("ege").innerHTML = egesayaci;
+        }
+        if (d.properties.base === "akdeniz") {
+          akdenizsayaci++
+          document.getElementById("akdeniz").innerHTML = akdenizsayaci;
+        }
+        if (d.properties.base === "karadeniz") {
+          akdenizsayaci++
+          document.getElementById("karadeniz").innerHTML = akdenizsayaci;
+        }
+        if (d.properties.base === "icanadolu") {
+          icanadolusayaci++
+          document.getElementById("icanadolu").innerHTML = icanadolusayaci;
+        }
+        if (d.properties.base === "doguanadolu") {
+          doguanadolusayaci++
+          document.getElementById("doanadolu").innerHTML = doguanadolusayaci;
+        }
+        if (d.properties.base === "gdoguanadolu") {
+          gdoguanadolusayaci++
+          document.getElementById("gudoanadolu").innerHTML = gdoguanadolusayaci;
+        }
         document.getElementById("city_count").innerHTML = cityCount;
         d3.select(this).attr("fill", HOVER_COLOR);
 
-//--------------------------İKİNCİ KISIM---------------------------------------
-
         //add selected city to localStorage
         if (localStorage.getItem("selectedCities")) {
-          // lokalde "selectedCities" olup olmadığını kontrol ediyoruz
           let tempSelectedCities = JSON.parse(
             localStorage.getItem("selectedCities")
           );
-          // eğer varsa bu ögeleri JSON nesnesinden JS nesnesine dönüştürüyoruz
           if (tempSelectedCities.includes(d.properties.name)) return;
-          // şehirler daha önceden seçilmiş mi diye kontrol ediyoruz
-          // eğer seçilmişse işlemi sonlandırıyoruz
           tempSelectedCities.push(d.properties.name);
-          // seçilmemişleri dizine pushluyoruz
           localStorage.setItem("selectedCities", JSON.stringify(tempSelectedCities));
-          // güncellenmiş listeyi lokale geri yüklüyoruz
         } else {
-          // eğer seçilmiş şehir ögesi lokalde yoksa
           let tempArr = [];
-          // tempArr adında bir dizi oluşturuyoruz
           tempArr.push(d.properties.name);
-          // seçilen şehri dizine ekliyoruz (push)
           localStorage.setItem("selectedCities", JSON.stringify(tempArr));
-          // daha sonra bu dizini lokalde seçilen şehirlere ("selectedCities") yüklüyoruz (.stringify())
         }
 
-//------------------------ÜÇÜNCÜ KISIM------------------------------------------
-
       } else {
-        // eğer datalardan herhangi birinin noFill özelliği true olan var ise...
         cityCount--;
-        // cityCount -1 eksiltilir
+        if (d.properties.base === "marmara") {
+          marmarasayaci--
+          document.getElementById("marmara").innerHTML = marmarasayaci;
+        }
+        if (d.properties.base === "ege") {
+          egesayaci--
+          document.getElementById("ege").innerHTML = egesayaci;
+        }
+        if (d.properties.base === "akdeniz") {
+          akdenizsayaci--
+          document.getElementById("akdeniz").innerHTML = akdenizsayaci;
+        }
+        if (d.properties.base === "karadeniz") {
+          akdenizsayaci--
+          document.getElementById("karadeniz").innerHTML = akdenizsayaci;
+        }
+        if (d.properties.base === "icanadolu") {
+          icanadolusayaci--
+          document.getElementById("icanadolu").innerHTML = icanadolusayaci;
+        }
+        if (d.properties.base === "doguanadolu") {
+          doguanadolusayaci--
+          document.getElementById("doanadolu").innerHTML = doguanadolusayaci;
+        }
+        if (d.properties.base === "gdoguanadolu") {
+          gdoguanadolusayaci--
+          document.getElementById("gudoanadolu").innerHTML = gdoguanadolusayaci;
+        }
         document.getElementById("city_count").innerHTML = cityCount;
-        // ardından cityCount id'si "city_count" olan bir html targetına atanır
         d3.select(this).attr("fill", MAP_COLOR);
-        // bunların da fill özniteliğine MAP_COLOR özelliği atanır
 
         //remove from localStorage
         let tempSelectedCities = JSON.parse(
           localStorage.getItem("selectedCities")
         );
-        // tempSelectedCities adından bir değer tanımlanır
-        // buna da JSON olan selectedCities dizisi JS'e çevrilerek yüklenir
         const index = tempSelectedCities.indexOf(d.properties.name);
-        // tempSelectedCities dizisinde dataların adını aruyoruz
         if (index !== -1) {
-          // eğer -1 dönmezse yani tempSelectedCities dizisinde datanın adı varsa... 
           tempSelectedCities.splice(index, 1);
-          // bu durumda index'teki o 1 ögeyi diziden kaldırır
         }
         localStorage.setItem(
-          // lokale data ekliyoruz
           "selectedCities",
-          // lokalden "selectedCities" adında bir datayı seçtik
           JSON.stringify(tempSelectedCities)
-          // "tempSelectedCities" dizisini oraya ekliyoruz
         );
       }
       d.noFill = !d.noFill;
-      // mevcut veri ögesinin noFill özelliğini tersine çeviriyoruz
     });
 
-//--------------------------DÖRDÜNCÜ KISIM---------------------------------------
-
   console.log(data.features.map((f) => f.properties.name));
-  // verisetindeki her bir ögenin adını konsola yazdırıyoruz
+  console.log(data.features.map((f) => f.properties.base))
+
+  let sehirler = localStorage.getItem("selectedCities")
+  console.log(sehirler)
 
   g = svg.append("g");
-  // svg elemanına bir grup (group) ekliyoruz
 
   g.selectAll("text")
-  // bu grup elemanlarının her ögesine bir text element ekliyoruz
     .data(data.features)
-    // veri setini metin ögeleriyle ilişkilendiriyoruz
     .enter()
-    // yeni veri ögeleri için yer tutucu oluşturuyoruz (bi bok anlamadım)
     .append("text")
-    // her öge için bir metin ögesi ekliyoruz
     .text(function (d) {
       return d.properties.name;
-      // metin ögelerine verisetindeki özelliklerden name olanı yazdırıyoruz
     })
     .attr("x", function (d) {
       return path.centroid(d)[0];
-      // metnin x koordinatını belirliyoruz
     })
     .attr("y", function (d) {
       return path.centroid(d)[1];
-      // metnin y koordinatını belirliyoruz
     })
     .attr("text-anchor", "middle")
-    // metni hizalandırıyoruz
     .attr("font-size", "10pt")
-    // metnin fontunu ayarlıyoruz
     .attr("style", "color: black;")
-    // metnin rengini ayarlıyoruz
     .attr("style", "pointer-events: none;");
-    // metnin üstündeki olayları devredışı bırakıyoruz
 });
 
 //---------------------------------BEŞİNCİ KISIM-----------------------------------

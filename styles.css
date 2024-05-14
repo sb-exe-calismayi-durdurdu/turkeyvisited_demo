@@ -67,3 +67,7 @@ html {
     margin-left: 1000px;
     opacity: 0.5;
 }
+
+#bolgeler {
+    display: block;
+}

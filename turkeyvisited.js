@@ -13,7 +13,11 @@ let cityCount = localStorage.getItem("selectedCities")
   : 0;
 document.getElementById("city_count").innerHTML = cityCount;
 
-let marmarasayaci = 0
+let marmarasayaci = localStorage.getItem("marmaraSehirleri")
+? JSON.parse(localStorage.getItem("marmaraSehirleri")).length
+: 0;
+document.getElementById("marmara").innerHTML = cityCount;
+
 let egesayaci = 0
 let akdenizsayaci = 0
 let karadenizsayaci = 0
@@ -64,8 +68,29 @@ d3.json("tr-cities.json")
         cityCount++;
         if (d.properties.base === "marmara") {
           marmarasayaci++
+          if (localStorage.getItem("marmaraSehirleri")) {
+            // eğer lokalde "marmaraSehirleri" diye bir key varsa şu işlemleri gerçekleştir:
+            let localcode_ = JSON.parse(localStorage.getItem("marmaraSehirleri"))
+            // localcode_ diye bir öge tanımla, marmaraSehirleri key'indeki dataları JS'e parse'layıp oraya ata
+            if (localcode_.includes(d.properties.name)) return
+            // eğer localcode_ d.properties.name varsa süreci durdur, aşağıdaki işlemlere geçme
+            localcode_.push(d.properties.name)
+            // localcode_'da d.properties.name yoksa, bu ögenin adını localcode_'a pushla
+            let localcode = JSON.stringify(localcode_)
+            // localcode adında yeni bir nesne tanımlayıp buna da localcode_'u JSON'a dönüştürüp atıyoruz
+            localStorage.setItem("marmaraSehirleri", localcode)
+            // son olarak da lokaldeki "marmaraSehirleri" key'ine localcode'u atıyoruz
+            console.log(":)")
+          } else {
+            let dizin = []
+            dizin.push(d.properties.name)
+            localStorage.setItem("marmaraSehirleri", JSON.stringify(dizin))
+          }
+          
           document.getElementById("marmara").innerHTML = marmarasayaci;
-        }
+        } else {console.log(":/")}
+
+
         if (d.properties.base === "ege") {
           egesayaci++
           document.getElementById("ege").innerHTML = egesayaci;
@@ -75,7 +100,7 @@ d3.json("tr-cities.json")
           document.getElementById("akdeniz").innerHTML = akdenizsayaci;
         }
         if (d.properties.base === "karadeniz") {
-          akdenizsayaci++
+          karadenizsayaci++
           document.getElementById("karadeniz").innerHTML = akdenizsayaci;
         }
         if (d.properties.base === "icanadolu") {
@@ -95,9 +120,7 @@ d3.json("tr-cities.json")
 
         //add selected city to localStorage
         if (localStorage.getItem("selectedCities")) {
-          let tempSelectedCities = JSON.parse(
-            localStorage.getItem("selectedCities")
-          );
+          let tempSelectedCities = JSON.parse(localStorage.getItem("selectedCities"));
           if (tempSelectedCities.includes(d.properties.name)) return;
           tempSelectedCities.push(d.properties.name);
           localStorage.setItem("selectedCities", JSON.stringify(tempSelectedCities));

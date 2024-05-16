@@ -1,18 +1,3 @@
-//
-//
-//
-// explanations of some codes
-//
-//
-// TODO
-// +1. marmarasayacini artırıp azaltan kod blokları içinde lokalle bağlantı minimuma indirilecek
-//    +1.1.    zaten 19-22 satırların arasındaki kod bloğu sayfa yenilendiğinde sayıyı fixliyor
-//    +1.2.    artırıp azaltan bloklarda dümdüz "marmarasayaci++" veya "marmarasayaci--" kullanılsın
-// +2. bir problemle karşılaşmazsak aynı kod blokları diğer bölgelere de entegre edilecek
-// 3. yine bir problem çıkmazsa bölgelerin sayaçlarını biçimlendireceğiz
-// 4. yine bir problem çıkmazsa canvas
-// and big final <3
-
 const HOVER_COLOR = "#EFAE88";
 const MAP_COLOR = "#fff2e3";
 
@@ -299,8 +284,6 @@ d3.json("tr-cities.json")
     .attr("style", "pointer-events: none;");
 });
 
-//---------------------------------BEŞİNCİ KISIM-----------------------------------
-
 function downloadMap() {
   let div = document.getElementById("map_container");
   html2canvas(div).then(function (canvas) {
@@ -309,8 +292,6 @@ function downloadMap() {
     destCanvas.height = canvas.height;
     var destCtx = destCanvas.getContext("2d");
     destCtx.drawImage(canvas, 0, 0);
-
-//--------------------------------ALTINCI KISIM-------------------------------------
 
     const ctx = destCanvas.getContext("2d");
     ctx.textBaseline = "top";
@@ -325,4 +306,17 @@ function downloadMap() {
       saveAs(blob, "turkeyvisited.png");
     });
   });
+}
+
+function toggleVisibility() {
+  var div = document.getElementById("bolgeler")
+  if (div.style.display === "none") {
+    div.style.display = "block"
+  } else {
+    div.style.display = "none"
+  }
+  if (div) {
+    var divPosition = div.getBoundingClientRect().top;
+    window.scrollTo({top: divPosition});
+  }
 }

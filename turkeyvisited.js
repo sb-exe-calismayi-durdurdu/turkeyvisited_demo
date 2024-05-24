@@ -320,3 +320,23 @@ function toggleVisibility() {
     window.scrollTo({top: divPosition});
   }
 }
+
+function resetButton() {
+  localStorage.removeItem("selectedCities")
+  localStorage.removeItem("marmaraSehirleri")
+  localStorage.removeItem("egeSehirleri")
+  localStorage.removeItem("akdenizSehirleri")
+  localStorage.removeItem("karadenizSehirleri")
+  localStorage.removeItem("icanadoluSehirleri")
+  localStorage.removeItem("doguanadoluSehirleri")
+  localStorage.removeItem("gdoguanadoluSehirleri")
+  cityCount = 0; document.getElementById("city_count").innerHTML = cityCount;
+  marmarasayaci = 0; document.getElementById("marmara").innerHTML = marmarasayaci;
+  egesayaci = 0; document.getElementById("ege").innerHTML = egesayaci;
+  akdenizsayaci = 0; document.getElementById("akdeniz").innerHTML = akdenizsayaci;
+  karadenizsayaci = 0; document.getElementById("karadeniz").innerHTML = karadenizsayaci;
+  icanadolusayaci = 0; document.getElementById("icanadolu").innerHTML = icanadolusayaci;
+  doguanadolusayaci = 0; document.getElementById("doanadolu").innerHTML = doguanadolusayaci;
+  gdoguanadolusayaci = 0; document.getElementById("gudoanadolu").innerHTML = gdoguanadolusayaci;
+  location.reload()
+}

@@ -43,8 +43,6 @@ html {
 }
 
 #download_button {
-    margin-left: 335px;
-    margin-top: 1em;
     padding: 0.5em 1.7em;
     border: 0.16em solid rgb(255, 255, 255);
     border-radius: 2em;
@@ -69,25 +67,8 @@ html {
     opacity: 0.5;
 }
 
-#bolgeler {
-    display: none;
-    border-radius: 2em;
-    width: 300px;
-    height: 200px;
-    padding-top: 20px;
-    padding-bottom: 40px;
-    padding-left: 40px;
-    background-color: #EFAE88;
-    font-family: "Roboto", sans-serif;
-    font-size: 80%;
-    margin-top: 25px;
-    margin-left: 775px;
-}
-
-#bases_button {
-    margin-left: 335px;
-    margin-top: 1em;
-    padding: 0.5em 2.5em;
+#reset_button {
+    padding: 0.5em 1.7em;
     border: 0.16em solid rgb(255, 255, 255);
     border-radius: 2em;
     box-sizing: border-box;
@@ -101,7 +82,12 @@ html {
     cursor: pointer;
 }
 
-#bases_button:hover {
+#reset_button:hover {
     color: black;
     background-color: #EFAE88;
+}
+
+#buttonGroup {
+    margin-left: 335px;
+    margin-top: 1em;
 }

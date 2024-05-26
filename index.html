@@ -16,27 +16,14 @@
   <div id="welcome_text">Ziyaret ettiğiniz illeri aşağıdan işaretleyebilirsiniz!</div>
 
   <div id="map_container"></div>
-  
+
   <div id="buttonGroup">
     <button id="reset_button" onclick="resetButton()">Sıfırla</button>
-    <button id="download_button" onclick="downloadMap()">Haritayı İndir</button>
-    <button id="bases_button" onclick="toggleVisibility()">Bölgeler</button>
+    <a id="github_logo" href="https://github.com/ozanyerli" target="_blank" rel="noopener noreferrer"><img src="images/GitHub-Mark-32px.png" alt="Github page link"></a>
   </div>
-
-
-  <a id="github_logo" href="https://github.com/ozanyerli" target="_blank" rel="noopener noreferrer"><img src="images/GitHub-Mark-32px.png" alt="Github page link"></a>
+  <button id="download_button" onclick="downloadMap()">Haritayı İndir</button>
 
   <div id="city_count_text">Seçilen il sayısı:&nbsp;<span id="city_count">0</span>/81</div>
-  <div id="bolgeler">
-    <div><p>MARMARA BÖLGESİ: <span id="marmara">0</span></p></div>
-    <div><p>EGE BÖLGESİ: <span id="ege">0</span></p></div>
-    <div><p>AKDENİZ BÖLGESİ: <span id="akdeniz">0</span></p></div>
-    <div><p>KARADENİZ BÖLGESİ: <span id="karadeniz">0</span></p></div>
-    <div><p>İÇ ANADOLU BÖLGESİ: <span id="icanadolu">0</span></p></div>
-    <div><p>DOĞU ANADOLU BÖLGESİ: <span id="doanadolu">0</span></p></div>
-    <div><p>GÜNEY DOĞU ANADOLU BÖLGESİ: <span id="gudoanadolu">0</span></p></div>
-  </div>
-  <br>
 
   <script src="turkeyvisited.js"></script>
 

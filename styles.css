@@ -43,8 +43,6 @@ html {
 }
 
 #download_button {
-    margin-left: 335px;
-    margin-top: 1em;
     padding: 0.5em 1.7em;
     border: 0.16em solid rgb(255, 255, 255);
     border-radius: 2em;
@@ -85,8 +83,6 @@ html {
 }
 
 #bases_button {
-    margin-left: 335px;
-    margin-top: 1em;
     padding: 0.5em 2.5em;
     border: 0.16em solid rgb(255, 255, 255);
     border-radius: 2em;
@@ -104,4 +100,29 @@ html {
 #bases_button:hover {
     color: black;
     background-color: #EFAE88;
+}
+
+#reset_button {
+    padding: 0.5em 1.7em;
+    border: 0.16em solid rgb(255, 255, 255);
+    border-radius: 2em;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    color: #000000;
+    text-shadow: 0 0.04em 0.04em rgba(255, 255, 255, 0.253);
+    text-align: center;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+#reset_button:hover {
+    color: black;
+    background-color: #EFAE88;
+}
+
+#buttonGroup {
+    margin-left: 335px;
+    margin-top: 1em;
 }

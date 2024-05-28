@@ -63,7 +63,7 @@ html {
 }
 
 #github_logo {
-    margin-left: 1000px;
+    margin-left: 750px;
     opacity: 0.5;
 }
 
@@ -125,4 +125,5 @@ html {
 #buttonGroup {
     margin-left: 335px;
     margin-top: 1em;
+    margin-bottom: 2em;
 }
